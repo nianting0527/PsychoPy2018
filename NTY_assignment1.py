@@ -1,0 +1,15 @@
+import math, numpy, random #handy system and math functionsfrom psychopy import core, event, visual, gui #these are the psychopy modulesmyWin = visual.Window(color='black', units='pix', size=[1000,1000], allowGUI=False, fullscr=False) # creates a windowmyClock = core.Clock() #this creates and starts a clock which we can later readdiskLeft = visual.Circle(myWin, radius=40, pos=[-180,0], lineWidth=2.5, fillColor='white', lineColor=None)diskRight = visual.Circle(myWin, radius=40, pos=[180,0], lineWidth=2.5, fillColor='white', lineColor=None)myCircle =visual.Circle(myWin, radius=80, lineWidth=2.5, fillColor=None, lineColor='white')myScale = visual.RatingScale(myWin, pos=[0, -375], low=20, high=60,  textSize=0.5, lineColor='white',  tickHeight=False, scale=None, showAccept=False, singleClick=True)information=visual.TextStim(myWin, pos=[0,-380], text='', height=18, color='white') 
+myScale2 = visual.RatingScale(myWin, pos=[0, -600], low=20, high=60,  textSize=0.5, lineColor='white',  tickHeight=False, scale=None, showAccept=False, singleClick=True)
+information2=visual.TextStim(myWin, pos=[0,-400], text='', height=18, color='white') title=visual.TextStim(myWin, pos=[0,360], text='Ebbinghaus illusion', height=50, color='pink') 
+ # draw circles with radius 'radius' around a ring with radius 'distance'def ringOfCircles(centrex, centrey, radius, distance):    myCircle.setRadius(radius)    for angle in [0, 60, 120, 180, 240, 300]:        angle = math.radians(angle)        x = math.cos(angle) * distance        y = math.sin(angle) * distance        myCircle.setPos([centrex+x, centrey+y])        myCircle.draw()# the main loopdef mainLoop():         finished = False    standardRadius = 40.    diskLeft.setRadius(standardRadius)    diskRight.setRadius(standardRadius)        while not finished:            diskLeft.draw()        diskRight.draw()            ringOfCircles(centrex=-180, centrey=0, radius= 10, distance= 60)        ringOfCircles(centrex= 180, centrey=0, radius= 60, distance= 125)                myScale.draw()
+        myScale2.draw()        information.draw()
+        information2.draw()
+        title.draw()        myWin.flip()                if myScale.noResponse ==False: #some new value has been selected with the mouse            size = myScale.getRating()            percentage = (size-40) / 40. * 100            information.setText(str(percentage) + "%")            diskRight.setRadius(size)            myScale.reset()
+        
+        if myScale2.noResponse ==False: #some new value has been selected with the mouse
+            size = myScale2.getRating()
+            percentage = (size-40) / 40. * 100
+            information2.setText(str(percentage) + "%")
+            diskLeft.setRadius(size)
+            myScale2.reset()                pressedList =event.getKeys(keyList=['escape']) #pressing ESC quits the program        if len(pressedList) >0:            if pressedList[0] =='escape':                finished =True            event.clearEvents()
+        mainLoop() #enters the main loopmyWin.close() #closes the windowcore.quit() #quits
