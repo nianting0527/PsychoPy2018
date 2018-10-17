@@ -1,5 +1,4 @@
 
-
 from datetime import datetime
 
 now=datetime.now().weekday()
@@ -11,9 +10,8 @@ week=datetime.strptime(S,"%Y%m%d").weekday()
 #weekday()给出来的是这周的n-1天，所以要加1
 week2 =(week+1)
 
-if week2 == 7:
-	x = '星期日'
-elif week2 == 1:
+
+if week2 == 1:
 	x = '星期一'
 elif week2 == 2:
 	x = '星期二' 
@@ -25,8 +23,11 @@ elif week2 == 5:
 	x = '星期五'
 elif week2 ==6:
     x = '星期六'
+elif week2 == 7:
+    x = '星期日'
 
 
     
     
 print ("您所選取的這天是:%s !" %x)
+
